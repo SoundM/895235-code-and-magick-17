@@ -65,7 +65,7 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     if (players[i] !== 'Вы') {
       var saturationBlue = getRandomInteger(0, 100) + '%';
-      ctx.fillStyle = 'hsl(220, ' + saturationBlue + ', 50%';
+      ctx.fillStyle = 'hsl(220, ' + saturationBlue + ', 50%)';
     }
     ctx.fillRect(startInfoX + scaleX * i, startInfoY - GAP - scaleY * times[i], BAR_WIDTH, scaleY * times[i]);
 
