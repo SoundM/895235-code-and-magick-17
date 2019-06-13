@@ -13,6 +13,11 @@ userDialog.classList.remove('hidden');
 var userSimilar = document.querySelector('.setup-similar');
 userSimilar.classList.remove('hidden');
 
+var similarListElement = document.querySelector('.setup-similar-list'); // Список, в который вставляем похожих магов
+var similarWizardTemplate = document.querySelector('#similar-wizard-template')
+  .content
+  .querySelector('.setup-similar-item'); // Шаблон, который копируем
+
 // Функция получения элемента массива со случайным порядковым индексом
 var getRandomArrayItem = function (array) {
   var i = Math.floor(Math.random() * array.length);
@@ -35,9 +40,6 @@ var createRandomWizard = function (firstName, lastName, coatColor, eyesColor) {
 
 // Создаем элемент шаблона
 var createWizardElement = function (wizard) {
-  var similarWizardTemplate = document.querySelector('#similar-wizard-template')
-    .content
-    .querySelector('.setup-similar-item'); // Шаблон, который копируем
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name + ' ' + wizard.lastName;
@@ -49,7 +51,6 @@ var createWizardElement = function (wizard) {
 
 // Функция создания массива магов и DOM элементов
 var renderMags = function () {
-  var similarListElement = document.querySelector('.setup-similar-list'); // Список, в который вставляем похожих магов
   var fragment = document.createDocumentFragment(); // Создаем пустой DOM элемент
   var wizards = createRandomWizard(WIZARD_NAMES, WIZARD_LAST_NAMES, COAT_COLORS, EYES_COLORS);// Массив магов
 
