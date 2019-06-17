@@ -8,13 +8,11 @@ var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 var NUMBER_OF_WIZARD = 4;
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
+var KeyCodeEnum = {
+  ESC: 27,
+  ENTER: 13,
+};
 
-// var userDialog = document.querySelector('.setup');
-// userDialog.classList.remove('hidden');
-// var userSimilar = document.querySelector('.setup-similar');
-// userSimilar.classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list'); // Список, в который вставляем похожих магов
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
@@ -71,7 +69,7 @@ var setup = document.querySelector('.setup');
 var setupClose = setup.querySelector('.setup-close');
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === KeyCodeEnum.ESC) {
     closePopup();
   }
 };
@@ -91,7 +89,7 @@ setupOpen.addEventListener('click', function () {
 });
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === KeyCodeEnum.ENTER) {
     openPopup();
   }
 });
@@ -101,7 +99,7 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ENTER_KEYCODE) {
+  if (evt.keyCode === KeyCodeEnum.ENTER) {
     closePopup();
   }
 });
@@ -111,17 +109,36 @@ var currentWizardCoat = document.querySelector('.setup-wizard .wizard-coat');
 var currentWizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
 var currentWizardFireball = document.querySelector('.setup-fireball-wrap');
 
+// Создадим независимый счетчик с различными методами
+function makeCounter() {
+  var currentCount = 0;
+
+  function counter() {
+    return currentCount++; // Собственно сам счетчик
+  }
+
+  counter.set = function (value) { // Метод позволяет включить счетчик на заданом значении
+    currentCount = value;
+  };
+
+  counter.reset = function () { // Метод обнуления счетчика
+    currentCount = 0;
+  };
+
+  return counter;
+}
+
+var counter = makeCounter();
 
 // Изменение цвета мантии по нажатию (по-порядку цветов в массиве)
-var clickCounter = 0;
 currentWizardCoat.addEventListener('click', function () {
+  var clickCounter = counter();
+  if (clickCounter === COAT_COLORS.length) {
+    clickCounter = counter.reset();
+  }
   var currentWizardCoatColor = COAT_COLORS[clickCounter];
   currentWizardCoat.style.fill = currentWizardCoatColor;
   document.querySelector('input[name="coat-color"]').value = currentWizardCoatColor;
-  clickCounter++;
-  if (clickCounter === COAT_COLORS.length) {
-    clickCounter = 0;
-  }
 });
 
 // Изменение цвета глаз по нажатию (случайным образом)
@@ -131,9 +148,13 @@ currentWizardEyes.addEventListener('click', function () {
   document.querySelector('input[name="eyes-color"]').value = currentWizardEyesColor;
 });
 
-// Изменение цвета фаербола по нажатию (случайным образом)
+// Изменение цвета фаербола по нажатию (как остаток от деления клика на длину массива цветов)
 currentWizardFireball.addEventListener('click', function () {
-  var currentWizardFireballColor = getRandomArrayItem(FIREBALL_COLORS);
+  var clickCounter = counter();
+  if (clickCounter === FIREBALL_COLORS.length) {
+    clickCounter = counter.reset();
+  }
+  var currentWizardFireballColor = FIREBALL_COLORS[clickCounter % FIREBALL_COLORS.length];
   currentWizardFireball.style.backgroundColor = currentWizardFireballColor;
   document.querySelector('input[name="fireball-color"]').value = currentWizardFireballColor;
 });
