@@ -148,7 +148,7 @@ currentWizardEyes.addEventListener('click', function () {
   document.querySelector('input[name="eyes-color"]').value = currentWizardEyesColor;
 });
 
-// Изменение цвета фаербола по нажатию (как остаток от деления клика на длину массива цветов)
+// Изменение цвета фаербола по нажатию (как элемент массива по остатку от деления клика на длину массива цветов)
 currentWizardFireball.addEventListener('click', function () {
   var clickCounter = counter();
   if (clickCounter === FIREBALL_COLORS.length) {
