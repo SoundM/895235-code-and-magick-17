@@ -8,7 +8,7 @@ var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 var NUMBER_OF_WIZARD = 4;
-var KeyCodeEnum = {
+var KeyCode = {
   ESC: 27,
   ENTER: 13,
 };
@@ -69,7 +69,7 @@ var setup = document.querySelector('.setup');
 var setupClose = setup.querySelector('.setup-close');
 
 var onPopupEscPress = function (evt) {
-  if (evt.keyCode === KeyCodeEnum.ESC) {
+  if (evt.keyCode === KeyCode.ESC) {
     closePopup();
   }
 };
@@ -82,6 +82,7 @@ var openPopup = function () {
 var closePopup = function () {
   setup.classList.add('hidden');
   document.removeEventListener('keydown', onPopupEscPress);
+  resetPosition(setup);
 };
 
 setupOpen.addEventListener('click', function () {
@@ -89,7 +90,7 @@ setupOpen.addEventListener('click', function () {
 });
 
 setupOpen.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === KeyCodeEnum.ENTER) {
+  if (evt.keyCode === KeyCode.ENTER) {
     openPopup();
   }
 });
@@ -99,10 +100,16 @@ setupClose.addEventListener('click', function () {
 });
 
 setupClose.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === KeyCodeEnum.ENTER) {
+  if (evt.keyCode === KeyCode.ENTER) {
     closePopup();
   }
 });
+
+// Функция сбрасывания положения окна диалога в первоначальное состояние
+function resetPosition(element) {
+  element.style.top = '';
+  element.style.left = '';
+}
 
 // Изменение цветов элементов мага игрока
 var currentWizardCoat = document.querySelector('.setup-wizard .wizard-coat');
