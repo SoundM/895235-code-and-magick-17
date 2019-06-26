@@ -1,6 +1,6 @@
 'use strict';
 
-// Перетаскивание диалогового окна и артефактов
+// Перетаскивание диалогового окна
 (function () {
   var setupDialogElement = document.querySelector('.setup');
   var dialogHandler = setupDialogElement.querySelector('.upload'); // Находим  элемент, за который будем тащить наш диалог upload.
