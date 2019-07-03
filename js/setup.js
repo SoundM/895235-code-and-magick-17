@@ -50,6 +50,7 @@
       fragment.appendChild(createWizardElement(wizards[i]));
     }
     similarListElement.appendChild(fragment); // Отрисуем шаблон в документ.
+    document.querySelector('.setup-similar').classList.remove('hidden');
   };
 
   renderMags();
