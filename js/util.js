@@ -5,6 +5,8 @@ window.util = (function () {
     ESC: 27,
     ENTER: 13,
   };
+
+  var DEBOUNCE_INTERVAL = 500; // ms
   var setupOpen = document.querySelector('.setup-open');
   var setup = document.querySelector('.setup');
   var setupClose = setup.querySelector('.setup-close');
@@ -86,11 +88,22 @@ window.util = (function () {
       document.body.insertAdjacentElement('afterbegin', node);
     },
 
-
     successHandler: function () {
       setup.classList.add('hidden');
+    },
+
+    debounce: function (cb) {
+      var lastTimeout = null;
+      return function () {
+        var parameters = arguments;
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          cb.apply(null, parameters);
+        }, DEBOUNCE_INTERVAL);
+      };
     }
   };
-
 
 })();
